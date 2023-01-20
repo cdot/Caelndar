@@ -1,0 +1,233 @@
+.ui-calendar {
+  position: relative; /* required for placement of floating-button */
+  height: 100%;
+  width: 100%;
+  /*max-width: 400px;*/
+}
+
+.ui-calendar a {
+  cursor: pointer;
+  color: #000;
+  text-decoration: none;
+}
+
+.ui-calendar a:active {
+  background: linear-gradient(135deg, #9a0dfe, #637dfb);
+}
+
+.ui-calendar a.selected {
+  background: linear-gradient(135deg, #fabdfe, #e36eab);
+}
+
+/* Title above calendar */
+.ui-calendar h1 {
+  margin: 0;
+  padding: 0.25em 0 0.25em;
+}
+
+/* month nav bar above calendar days */
+.ui-calendar .nav {
+  margin: 0.25em;
+  opacity: 0.5;
+  display: flex;
+  font-size: larger;
+  justify-content:space-between
+}
+
+.ui-calendar .wrap {
+  height: 100%;
+  border-radius: 16px;
+  box-sizing: border-box;
+  border: 4px solid #fff;
+  background-color: #eff0f8;
+  box-shadow: 0px 32px 47px rgba(32, 23, 23, 0.09);
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-calendar .calendar-wrap {
+}
+
+.ui-calendar .calendar {
+  background: #fff;
+  border-radius: 0 0 1em 1em;
+  color: #555;
+  width: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 20px 10px;
+}
+
+.ui-calendar .out-day {
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+.ui-calendar .current-day {
+  background: #eff0f8;
+}
+
+.ui-calendar .day-row {
+  display: flex;
+  opacity: 1;
+  height: 30px;
+  width: 100%;
+  transition: height 0.3s;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* day names above the month block */
+.ui-calendar .day-heads {
+  pointer-events: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: larger;
+  font-weight: bold;
+}
+
+/* Day numbers in the month block */
+.ui-calendar .day-list {
+}
+
+/* .day-row is a single row of dates in the month block */
+.ui-calendar .day-row a {
+ width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-calendar .day-row a > span,
+.ui-calendar .day-heads span {
+  position: relative;
+  width: 100%;
+  padding: 4px 0 7px;
+  margin: 2px 0;
+  text-align: center;
+  border-radius: 6px;
+}
+
+.ui-calendar .day-list .active span {
+  font-weight: 700;
+  color: #fff;
+  background-color: #824bfc;
+}
+
+.ui-calendar .events-wrap {
+  flex: 1;
+  overflow: scroll;
+}
+
+/* was .v-info */
+.ui-calendar .events-list {
+  overflow: scroll;
+  width: 100%;
+  padding-bottom: 3em;
+  margin-bottom: 0.5em;
+  transition: all 0.3s;
+}
+.ui-calendar .event {
+  border-bottom: 1px solid #fff;
+  padding: 0.25em;
+}
+
+.ui-calendar .event:hover {
+  background: #fff0ff;
+}
+
+.ui-calendar .event-time {
+  padding-bottom: 0.2em;
+  font-weight: bold;
+}
+
+.ui-calendar .event-button {
+  position: relative;
+  left: 90%;
+  top: 1.5em;
+}
+
+.ui-calendar .event-button span {
+  display: inline-block;
+}
+
+.ui-calendar .color-orange {
+  background: linear-gradient(#ff9900, #ff5050);
+  box-shadow: 0 2px 12px -3px #ff5050;
+}
+
+.ui-calendar .color-pink {
+  background: linear-gradient(#ff66cc, #ff6666);
+  box-shadow: 0 2px 12px -3px #ff6666;
+}
+
+.ui-calendar .color-green {
+  background: linear-gradient(#19be6b, #236c61);
+  box-shadow: 0 2px 12px -3px #236c61;
+}
+
+.ui-calendar .color-blue {
+  background: linear-gradient(#33ccff, #72abff);
+  box-shadow: 0 2px 12px -3px #72abff;
+}
+
+.ui-calendar .dots {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  background-color: transparent !important;
+}
+
+.ui-calendar .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  margin: 0 2px;
+}
+
+.ui-calendar .floating-button {
+  cursor: pointer;
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  width: 100px;
+  height: 40px;
+  background: linear-gradient(135deg, #9a0dfe, #637dfb);
+  box-shadow: 0 2px 12px -3px #637dfb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 2;
+  color: #fff;
+  font-weight: 400;
+  border: none;
+  border-radius: 1em;
+}
+
+.edit-event-dialog .dangerous {
+  color: red;
+}
+
+.edit-event-dialog .spinner {
+  width: 2em;
+}
+
+.edit-event-dialog .button-rack {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.edit-event-dialog .wide {
+  width: 100%;
+}
+
+

@@ -1,0 +1,34 @@
+<div class="edit-event-dialog" style="display:none">
+  <table>
+    <tr>
+      <th>Start</th>
+      <td><input type="text" class="datepicker" name="start-date" /></td>
+      <td>
+        at
+        <input class="spinner" name="start-hour" data-min="0" data-max="23">
+        <input class="spinner" name="start-minute" data-min="0" data-max="59">
+      </td>
+    </tr>
+    <tr>
+      <th>End</th>
+      <td><input type="text" class="datepicker" name="end-date" /></td>
+      <td>
+        at
+        <input class="spinner" name="end-hour" data-min="0" data-max="23">
+        <input class="spinner" name="end-minute" data-min="0" data-max="59">
+      </td>
+    </tr>
+  </table>
+  <div>
+    <b>Title</b>
+    <input type="text" class="wide" name="title" />
+  </div>
+  <div>
+    <b>Description</b>
+    <textarea id="description" class="wide" name="description"></textarea>
+  </div>
+  <div class="button-rack">
+    <button class="save-button">Save</button>
+    <button class="delete-button dangerous">Delete</button>
+  </div>
+</div>
