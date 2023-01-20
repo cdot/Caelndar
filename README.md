@@ -1,7 +1,9 @@
 # Event Calendar
 JQuery UI widget for a simple event calendar application.
 
-<img style="float:right" src="/images/splash.png" width="197" height="309" alt="Image" /> When applied to a div, the widget creates a visual representation of a
+<img src="/images/splash.png" width="197" height="309" alt="Image" />
+
+When applied to a div, the widget creates a visual representation of a
 month-by-month calendar, with a block showing events underneath. Events
 are simple, having just a start and an end, a title, and a description.
 
