@@ -1,24 +1,25 @@
 <div class="edit-event-dialog" style="display:none">
-  <table>
-    <tr>
-      <th>Start</th>
-      <td><input type="text" class="datepicker" name="start-date" /></td>
-      <td>
-        at
-        <input class="spinner" name="start-hour" data-min="0" data-max="23">
-        <input class="spinner" name="start-minute" data-min="0" data-max="59">
-      </td>
-    </tr>
-    <tr>
-      <th>End</th>
-      <td><input type="text" class="datepicker" name="end-date" /></td>
-      <td>
-        at
-        <input class="spinner" name="end-hour" data-min="0" data-max="23">
-        <input class="spinner" name="end-minute" data-min="0" data-max="59">
-      </td>
-    </tr>
-  </table>
+  <div class="flexgrid">
+    <div class="flexrow">
+      <b>Start</b>
+        <input type="text" class="datepicker" name="start-date" />
+      </span>
+      <span> at </span>
+      <span class="clockpicker">
+        <input name="start-time">
+      </span>
+    </div>
+    <div class="flexrow">
+      <b>
+        End
+        <input type="text" class="datepicker" name="end-date" />
+      </b>
+      <span> at </span>
+      <span class="clockpicker">
+        <input type="text" name="end-time">
+      </span>
+    </div>
+  </div>
   <div>
     <b>Title</b>
     <input type="text" class="wide" name="title" />

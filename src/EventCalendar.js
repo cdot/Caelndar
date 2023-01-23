@@ -308,12 +308,16 @@ class EventCalendar {
           });
           $span.append($dots);
 
+          if (this.options.future_only
+              && new Date(this.selectedYear, this.selectedMonth, dom) < today)
+            $a.addClass("past-day");
+
           const day = dom;
           $a.on("click", () => {
             $(".selected", this.$el).removeClass("selected");
             $a.addClass("selected");
             this.selectedDate = day;
-            console.debug("Selected", this.selectedDate);
+            //console.debug("Selected", this.selectedDate);
             this.refresh();
           });
         }

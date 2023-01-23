@@ -1,0 +1,49 @@
+.edit-event-dialog .dangerous {
+  color: red;
+}
+
+.edit-event-dialog .spinner {
+  width: 2em;
+}
+
+.edit-event-dialog .button-rack {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.edit-event-dialog .wide {
+  width: 100%;
+}
+
+.edit-event-dialog .flexgrid {
+}
+
+.edit-event-dialog .flexrow {
+  display: flex;
+  transition: height 0.3s;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.edit-event-dialog .flexrow .datepicker {
+  width: 10em;
+}
+
+.edit-event-dialog .flexrow .clockpicker input {
+  width: 5em;
+}
+
+@media screen and (max-aspect-ratio: 1/1) and (max-width: 720px) {
+  .edit-event-dialog {
+    width: 100vw;
+  }
+}
+
+@media screen and (any-pointer: coarse) {
+  /* Touch sensitive */
+  .edit-event-dialog {
+    font-size: 5vw;
+  }
+}

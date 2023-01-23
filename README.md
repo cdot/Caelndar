@@ -48,6 +48,9 @@ Array of pre-existing events. Each entry in the array must be an object with fie
 * `title` string title of the event
 * `description` string description of the event
 
+### future_only
+If `true`, dates in the past are shown greyed out.
+
 ### title
 Optional string title displayed above the calendar.
 

@@ -1,5 +1,32 @@
 /*Copyright (C) Crawford Currie 2023 - All rights reserved*/
 
+import "./jquery-clockpicker.js";
+
+/**
+ * Parse a server local time HH[:MM[:SS]][am|pm] string
+ * Times must be in the range 00:00:00..23:59:59
+ * @param {string} s time string
+ * @return {number[]} array of [ h, m, s ]
+ */
+function parseTime(str) {
+  let pm = false;
+  str = str.replace(/(am|pm)$/i, () => { pm = true; return ""; });
+  const hms = str.split(":");
+  let h = Number.parseInt(hms.shift()), m = 0, s = 0;
+  if (h < 0 || h > 23) throw Error("Hours out of range 0..23");
+  if (pm && h < 13) h += 12;
+  if (hms.length > 0) {
+    m = Number.parseInt(hms.shift());
+    if (m < 0 || m > 59) throw Error("Minutes out of range 0..59");
+    if (hms.length > 0) {
+      const s = Number.parseFloat(hms.shift());
+      if (s < 0 || s > 59) throw Error("Minutes out of range 0..59");
+    }
+    if (hms.length > 0) throw Error("Time format error");
+  }
+  return [ h, m, s ];
+}
+
 class EditEventDialog {
 
   /**
@@ -27,11 +54,9 @@ class EditEventDialog {
   populate(spec) {
     const $dialog = this.$dialog;
     $("[name=start-date]", $dialog).val(spec.start.toDateString());
-    $("[name=start-hour]", $dialog).val(spec.start.getHours());
-    $("[name=start-minute]", $dialog).val(spec.start.getMinutes());
+    $("[name=start-time]", $dialog).val(spec.start.toLocaleTimeString());
     $("[name=end-date]", this.$dialog).val(spec.start.toDateString());
-    $("[name=end-hour]", $dialog).val(spec.end.getHours());
-    $("[name=end-minute]", $dialog).val(spec.end.getMinutes());
+    $("[name=end-time]", $dialog).val(spec.end.toLocaleTimeString());
     $("[name=title]", $dialog).val(spec.title);
     $("[name=description]", $dialog).val(spec.description);
   }
@@ -48,31 +73,33 @@ class EditEventDialog {
 
       $("button.save-button", $dialog)
       .on("click", () => {
-        const sts = $("[name=start-date]", $dialog).val();
-        const st = new Date(sts);
-        const sth = $("[name=start-hour]", $dialog).val();
-        st.setHours(parseInt(sth));
-        const stm = $("[name=start-minute]", $dialog).val();
-        st.setMinutes(parseInt(stm));
+        try {
+          const stds = $("[name=start-date]", $dialog).val();
+          const st = new Date(stds);
+          const stts = parseTime($("[name=start-time]", $dialog).val());
+          st.setHours(parseInt(stts[0]));
+          st.setMinutes(parseInt(stts[1]));
+          st.setSeconds(parseInt(stts[2]));
 
-        const ets = $("[name=end-date]", $dialog).val();
-        const et = new Date(ets ? ets : sts);
-        const eth = $("[name=end-hour]", $dialog).val();
-        et.setHours(parseInt(eth));
-        const etm = $("[name=end-minute]", $dialog).val();
-        et.setMinutes(parseInt(etm));
+          const ets = $("[name=end-date]", $dialog).val();
+          const et = new Date(ets ? ets : stds);
+          const etts = parseTime($("[name=end-time]", $dialog).val());
+          et.setHours(parseInt(etts[0]));
+          et.setMinutes(parseInt(etts[1]));
+          et.setSeconds(parseInt(etts[2]));
 
-        if (st >= et) {
-          alert("'Start' must be before 'End'");
-          return;
+          if (st >= et)
+            throw Error("'Start' must be before 'End'");
+          $dialog.dialog("close");
+          this.resolve({
+            start: st,
+            end: et,
+            title: $("[name=title]", $dialog).val(),
+            description: $("[name=description]", $dialog).val()
+          });
+        } catch (e) {
+          console.error(e);
         }
-        $dialog.dialog("close");
-        this.resolve({
-          start: st,
-          end: et,
-          title: $("[name=title]", $dialog).val(),
-          description: $("[name=description]", $dialog).val()
-        });
       });
 
       $("button.delete-button", $dialog)
@@ -85,6 +112,11 @@ class EditEventDialog {
       .on("change", function() {
         $("[name=end]", $dialog)
         .datepicker("option", "minDate", $(this).val());
+      });
+
+      $('.clockpicker', $dialog).clockpicker({
+        autoclose: true,
+        default: "now"
       });
 
       return $dialog;
@@ -125,7 +157,11 @@ class EditEventDialog {
             $(".datepicker", this.$dialog)
             .datepicker({
               minDate: new Date(),
-              dateFormat: "D, d M yy"
+              dateFormat: "D, d M yy",
+              beforeShow: function(input, inst) {
+                // Add the dialog class to inherit font sizes etc
+                $('#ui-datepicker-div').addClass("edit-event-dialog");
+              }
             });
             $("select", this.$dialog)
             .selectmenu();

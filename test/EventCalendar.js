@@ -53,6 +53,7 @@ const events = [
 $("#calendar").event_calendar({
   events: events,
   title: "Events",
+  future_only: true,
   add: e => {
     console.log("Add event ", e);
     return Promise.resolve(99);
