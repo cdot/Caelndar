@@ -1,0 +1,26 @@
+# This workflow will run tests and publish a package to npm when a
+# push to main happens
+
+name: Publish to npm
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm test
+      - run: npx webpack -c webpack/amd.js
+      - run: npx webpack -c webpack/cjs.js
+      - run: npx webpack -c webpack/mjs.js
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{secrets.NPM_TOKEN}}
