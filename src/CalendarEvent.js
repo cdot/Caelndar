@@ -66,14 +66,9 @@ class CalendarEvent {
     if (options.select)
       $event.on("click", () => options.select(this));
     if (options.edit) {
-      const $butt = $("<button class='event-button'></button>");
+      const $butt = $("<button class='event-button'>&#9998;</button>");
       $event.prepend($butt);
-      $butt.button({
-        icons: {
-          primary: "ui-icon-pencil"
-        },
-        text: false
-      });
+      $butt.button();
       $butt.on("click", () => options.edit(this));
     }
     return $event;

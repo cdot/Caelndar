@@ -30,6 +30,8 @@ function parseTime(str) {
 class EditEventDialog {
 
   /**
+   * @param {object?} options options, standard jQueryUI dialog options
+   * @param {object?} options.clockpicker options to pass on to clockpicker
    */
   constructor(options) {
 
@@ -65,7 +67,7 @@ class EditEventDialog {
    * @private
    */
   $create() {
-    const url = import.meta.url.replace(/\.js$/, ".html");
+    const url = new URL("../html/EditEventDialog.html", import.meta.url);
     return $.get(url)
     .then(html => {
       const $dialog = this.$dialog = $(html);
@@ -114,10 +116,10 @@ class EditEventDialog {
         .datepicker("option", "minDate", $(this).val());
       });
 
-      $('.clockpicker', $dialog).clockpicker({
+      $('.clockpicker', $dialog).clockpicker($.extend({
         autoclose: true,
-        default: "now"
-      });
+        align: "right"
+      }, this.options.clockpicker));
 
       return $dialog;
     });
@@ -125,10 +127,11 @@ class EditEventDialog {
 
   /**
    * Open the dialog on the given event (if defined)
+   * @param {CalendarEvent} spec the event to edit (undefined to create)
    * @return {Promise} that resolves when the dialog is saved, or
    * rejects when it is closed.
    */
-  open(spec) {
+  open(spec, $container) {
     let promise;
     if (this.$dialog)
       promise = Promise.resolve(this.$dialog);
@@ -148,17 +151,16 @@ class EditEventDialog {
 
       return new Promise(resolve => {
         this.resolve = resolve;
-        this.$dialog.dialog({
+        const dopts = {
           modal: true,
-          minWidth: 400,
-          width: 'auto',
           title: "Add",
+
           create: () => {
             $(".datepicker", this.$dialog)
             .datepicker({
               minDate: new Date(),
               dateFormat: "D, d M yy",
-              beforeShow: function(input, inst) {
+              beforeShow: () => {
                 // Add the dialog class to inherit font sizes etc
                 $('#ui-datepicker-div').addClass("edit-event-dialog");
               }
@@ -175,8 +177,12 @@ class EditEventDialog {
           },
           open: () => {
             this.$dialog.dialog("option", "title", title);
-          }
-        });
+          },
+          position: { my: "left top", at: "left top", of: $container },
+          width: $container.outerWidth(),
+          height: $container.outerHeight()
+        };
+        this.$dialog.dialog(dopts);
       });
     });
   }

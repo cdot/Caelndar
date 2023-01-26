@@ -1,6 +1,6 @@
 /*Copyright (C) Crawford Currie 2023 - All rights reserved*/
 
-import { EventCalendar } from "../src/EventCalendar.js";
+import { EventCalendar } from "../dist/mjs/index.js";
 
 function lengthOfMonth(y, m) {
   const nMonth = (m + 1) % 12;

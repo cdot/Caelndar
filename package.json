@@ -1,9 +1,14 @@
 {
   "name": "@cdot/event_calendar",
   "description": "Event Calendar widget",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "MIT",
   "type": "module",
+  "module": "dist/mjs/index.js",
+  "exports": {
+    "import": "./dist/mjs/index.js",
+    "require": "./dist/cjs/index.js"
+  },
   "author": {
     "name": "Crawford Currie",
     "url": "https://github.com/cdot"
@@ -18,8 +23,9 @@
   },
   "files": [
     "README.md",
+    "dist/*/*.js",
     "src/*.js",
-    "src/*.html",
+    "html/*.html",
     "css/*.css"
   ],
   "dependencies": {
@@ -27,6 +33,7 @@
     "jquery-ui-dist": "^1.13.2"
   },
   "scripts": {
+    "build": "webpack -c webpack/cjs.js & webpack -c webpack/mjs.js & webpack -c webpack/amd.js",
     "lint": "eslint src -f unix"
   },
   "eslintConfig": {
@@ -83,6 +90,8 @@
     }
   },
   "devDependencies": {
-    "eslint-plugin-import": "^2.27.5"
+    "eslint-plugin-import": "^2.27.5",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }

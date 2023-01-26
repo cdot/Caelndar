@@ -84,6 +84,9 @@ class EventCalendar {
    * @param {object} options widget options
    * @param {CalendarEvent[]} options.events optional list of events, may
    * be simple objects that just look like CalendarEvent.
+   * @param {boolean?} future_only only allow creation of events today
+   * and on future days. default: false
+   * @param {object?} editor options passed on the the editor dialog
    */
   constructor(options) {
     /**
@@ -91,6 +94,7 @@ class EventCalendar {
      * @member {object}
      */
     this.options = options || {};
+
     if (options.events)
       /**
        * List of events in the calendar
@@ -121,11 +125,11 @@ class EventCalendar {
     this.selectedDate = today.getDate();
 
     /**
-     * Event editing dialog, created on demand
+     * Event editing dialog
      * @member {number}
      * @private
      */
-    this.event_dialog = new EditEventDialog(this.options);
+    this.event_dialog = new EditEventDialog(this.options.editor);
   }
 
   /**
@@ -257,7 +261,8 @@ class EventCalendar {
     $dayList.empty();
 
     // Calculate last day of previous month
-    const prevMonthLength = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
+    const prevMonthLength =
+          new Date(this.selectedYear, this.selectedMonth, 0).getDate();
 
     // And last day of this month (0th day of next month)
     const monthLength = lengthOfMonth(this.selectedYear, this.selectedMonth);
@@ -266,10 +271,11 @@ class EventCalendar {
     let dom = 1 - first.getDay();
 
     // Get today's date
-    const today = new Date();
+    let today = new Date();
     const todayYear = today.getFullYear();
     const todayMonth = today.getMonth();
     const todayDay = today.getDate();
+    today = new Date(todayYear, todayMonth, todayDay);
 
     // 7 columns by 5 rows = 35 total.
     for (let row = 0; row < 5; row++) {
@@ -345,7 +351,7 @@ class EventCalendar {
     events.forEach(e => {
       const $event = e.$create({
         edit: event => {
-          this.event_dialog.open(event)
+          this.event_dialog.open(event, this.$el.closest(".ui-dialog"))
           .then(async ne => {
             if (typeof ne === "object") {
               event.start = ne.start;
@@ -377,7 +383,7 @@ class EventCalendar {
    */
   $create($context) {
     this.$el = $context;
-    const url = import.meta.url.replace(/\.js$/, ".html");
+    const url = new URL("../html/EventCalendar.html", import.meta.url);
     return $.get(url)
     .then(html => {
       this.$el.html(html);
@@ -398,7 +404,7 @@ class EventCalendar {
       // Configure the "Add" button
       $(".add-event", this.$el)
       .on("click",
-          () => this.event_dialog.open()
+          () => this.event_dialog.open(null, $context)
           .then(async spec => {
             const e = new CalendarEvent(spec);
             if (this.options.add)

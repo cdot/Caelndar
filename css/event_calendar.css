@@ -3,7 +3,7 @@
 
 .event-calendar {
   position: relative; /* required for placement of floating-button */
-  height: 100%;
+  height: 100%; /* of the container */
   width: 100%;
   min-width: 350px;
 }
@@ -22,7 +22,7 @@
   background: linear-gradient(135deg, #fabdfe, #e36eab);
 }
 
-/* Title above calendar */
+/* Title above calendar (if any) */
 .event-calendar h1 {
   margin: 0;
   padding: 0.25em 0 0.25em;
@@ -33,7 +33,7 @@
   margin: 0.25em;
   opacity: 0.5;
   display: flex;
-  font-size: larger;
+  font-size: smaller;
   justify-content:space-between
 }
 
@@ -58,7 +58,7 @@
   width: 100%;
   box-sizing: border-box;
   display: inline-block;
-  padding: 10px;
+  padding: 0.5em;
 }
 
 .event-calendar .out-day {
@@ -67,6 +67,7 @@
 }
 
 .event-calendar .past-day {
+  pointer-events: none;
   opacity: 0.5;
 }
 
@@ -90,7 +91,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: larger;
+  font-size: smaller;
   font-weight: bold;
 }
 
@@ -150,9 +151,11 @@
 }
 
 .event-calendar .event-button {
-  position: relative;
+/*  position: relative;
   left: 90%;
-  top: 1.5em;
+  top: 1.5em;*/
+  float: right;
+  padding: 0;
 }
 
 .event-calendar .event-button span {
@@ -218,20 +221,11 @@
   border-radius: 1em;
 }
 
-/*------------ PORTRAIT SCREEN ------------*/
-
-@media screen and (max-aspect-ratio: 1/1) and (max-width: 720px) {
-  .event-calendar {
-    width: 95vw;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-}
+/*------------ TOUCH SENSITIVE ------------*/
 
 @media screen and (any-pointer: coarse) {
   /* Touch sensitive */
   .event-calendar {
-    font-size: 5vw;
+    font-size: larger;
   }
 }
